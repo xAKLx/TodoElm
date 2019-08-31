@@ -1,0 +1,143 @@
+@import "./styles/fonts.scss", "./styles/tabsFramework.scss", "./styles/customCheckbox.scss";
+
+.content {
+  width: 80vw;
+  height: 80vh;
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+  border-radius: 3px;
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  z-index: 2;
+  position: relative;
+  background-color: white;
+}
+
+@media only screen and (max-width: 600px) {
+  .content {
+    width: 100vw;
+    height: 100vh;
+  }
+}
+
+.background {
+  position: fixed;
+  bottom: 0;
+  width: 100%;
+  height: 75vh;
+  background-image: linear-gradient(to right, #80a4fa, #a9f1f8);
+  left: 0;
+  z-index: 1;
+}
+
+html {
+  height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: Roboto;
+}
+
+.todoList {
+  min-height: 50vh;
+}
+
+.todoList > .tabContent {
+  display: none;
+  flex-direction: column;
+}
+
+.todoEntry {
+  display: flex;
+  flex-direction: row;
+  align-items: flex-start;
+  padding: 20px 10px 0 10px;
+}
+
+.todoEntry:nth-child(2n + 1) {
+  background-color: #f7f6fb;
+}
+
+.todoData {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  padding-top: 2px;
+}
+
+.todoData > * {
+  margin-bottom: 15px;
+}
+
+.publishingData {
+  color: gray;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
+
+.publishingData > * {
+  margin: 0 5px;
+}
+
+.metaData {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  font-size: 14px;
+}
+
+.circle {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+}
+
+.grayCircle {
+  background-color: #80808075;
+}
+
+.chip {
+  border-radius: 15px;
+  padding: 5px 10px;
+  background-color: gray;
+}
+
+.chips {
+  color: white;
+  display: flex;
+}
+
+.chips > .chip {
+  margin: 0 4px;
+}
+
+.todoDayHeader {
+  padding: 10px;
+  padding-left: 30px;
+  display: flex;
+  justify-content: space-between;
+}
+
+.todoOpenedDayHeader {
+  padding: 10px;
+}
+
+.todoClosedDayHeader {
+  color: #0000004d;
+  background-color: #0000;
+  border: none;
+  font-size: inherit;
+  cursor: pointer;
+  border-radius: 20px;
+  padding: 10px;
+  transition: 0.5s;
+}
+
+.todoClosedDayHeader:hover {
+  background-color: #00000012;
+}
+
+#work {
+  flex-direction: column;
+}

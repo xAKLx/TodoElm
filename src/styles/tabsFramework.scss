@@ -1,0 +1,33 @@
+.navigation {
+  border-bottom: 1px solid #0000002e;
+  display: flex;
+  flex-direction: row;
+  padding: 0 20px;
+  position: relative;
+}
+
+.tabLabel {
+  padding: 25px 20px 15px;
+  font-weight: bold;
+  cursor: pointer;
+  color: #0000004d;
+  transition: 0.5s;
+}
+
+.tabLabel:hover {
+  background-color: #00000012;
+}
+
+.tabLabel.active {
+  color: #4700ec;
+}
+
+.inkBar {
+  position: absolute;
+  left: auto;
+  right: auto;
+  bottom: 0;
+  height: 2px;
+  background: rgb(255, 82, 82);
+  transition: 0.25s;
+}
