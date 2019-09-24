@@ -1,0 +1,35 @@
+$standardInputShadow: 0px 0px 2px -1px rgba(0, 0, 0, 0.75);
+
+.inputGroup {
+  margin: 20px 0;
+}
+
+.inputGroup > label {
+  margin-left: 5px;
+}
+
+.inputGroupColumn {
+  display: flex;
+  flex-direction: column;
+}
+
+%standardInput {
+  border: 1px solid #00000014;
+  border-radius: 3px;
+  -webkit-box-shadow: $standardInputShadow;
+  -moz-box-shadow: $standardInputShadow;
+  box-shadow: $standardInputShadow;
+  font-size: 16px;
+  padding: 5px;
+}
+
+.standardInput {
+  @extend %standardInput;
+}
+
+.textarea {
+  @extend .standardInput;
+  font-family: Roboto;
+  padding: 10px;
+  resize: none;
+}

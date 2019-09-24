@@ -1,11 +1,15 @@
 import Browser
-import Html exposing (Html, Attribute, div, text)
+import Html exposing (Html, Attribute, div, text, span, button)
 import Html.Attributes exposing (class, style, id)
+import Html.Events exposing (onClick)
 import List
 import VirtualDom exposing (Node, node)
 import Tab exposing (Tab, InkBarDetails, renderTabs, renderTabNavigation)
-import TodoList exposing (TodoDay, Tag, TodoEntry, partitionTodoDay, renderTodoListPartition)
+import TodoList exposing (TodoDay, Tag, TodoEntry, partitionTodoDay, renderTodoListPartition, addEntry)
 import TodoList.Decode exposing (decodeTodoList)
+import Modal exposing (modal)
+import Global exposing (Updater)
+import EntryCreatorForm exposing (Form, renderForm, emptyForm)
 
 main =
   Browser.element { init = init, update = update, subscriptions = subscriptions, view = view }
@@ -17,6 +21,8 @@ type alias Model =
   , selectedTab : String
   , inkBarDetails: InkBarDetails
   , todoList: List TodoDay
+  , modalOpened: Bool
+  , form: Form
   }
 
 init : String -> (Model, Cmd Msg)
@@ -26,6 +32,8 @@ init flag =
       "work" 
       (InkBarDetails 0 0) 
       (decodeTodoList flag |> partitionTodoDay)
+      False
+      emptyForm
   , Cmd.none
   )
 
@@ -36,8 +44,11 @@ type Msg
   | SwitchTodoDayClosed TodoDay
   | UpdateClosedStatus TodoDay Int String
   | SetTempStatus TodoDay Int Bool
-
-type alias Updater a = a -> a
+  | CloseModal
+  | OpenModal
+  | AddEntry TodoEntry
+  | OnFormCanceled
+  | OnFormUpdated Form
 
 update : Msg -> Model -> (Model, Cmd Msg)
 update msg model =
@@ -61,6 +72,14 @@ update msg model =
         }
       , Cmd.none
       )
+    CloseModal -> ( { model | modalOpened = False }, Cmd.none )
+    OpenModal -> ( { model | form = emptyForm, modalOpened = True }, Cmd.none )
+    AddEntry entry -> 
+      ( { model | todoList = addEntry entry model.todoList, modalOpened = False }, Cmd.none )
+    OnFormCanceled ->
+      ( { model | form = emptyForm, modalOpened = False }, Cmd.none )
+    OnFormUpdated form ->
+      ( { model | form = form }, Cmd.none )
 
 todoEntryClosedUpdater : Updater TodoEntry
 todoEntryClosedUpdater todoEntry = { todoEntry | closed = todoEntry.closedCheckBox }
@@ -99,6 +118,15 @@ view : Model -> Html Msg
 view model =
   div []
     [ div [ class "background" ] []
+    , div [ class "titleBar" ]
+      [ span [ class "title" ] [ text "My Tasks"]
+      , div [ class "tools" ]
+        [ button 
+          [ id "newTaskButton"
+          , class "standardButton"
+          , onClick OpenModal
+          ] [ text "New Task" ] ]
+      ]
     , div [ class "content" ] 
       [ renderTabNavigation model.tabs model.inkBarDetails model.selectedTab SelectTab |> div [ class "navigation" ]
       , customScrollBar [ class "todoList", style "height" "100%" ] 
@@ -114,6 +142,13 @@ view model =
               model.selectedTab
           )
       ]
+    , modal 
+        model.modalOpened
+        [ div 
+            [ class "modalContent" ] 
+            [ renderForm model.form OnFormUpdated AddEntry OnFormCanceled ]
+        ] 
+        CloseModal
     ]
 
 renderTodoList : List TodoDay -> List (Html Msg)

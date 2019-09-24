@@ -1,0 +1,66 @@
+.radioButtonContainer {
+  display: flex;
+  cursor: pointer;
+  font-size: 22px;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+  margin: 0 10px;
+  flex-direction: row;
+  align-items: center;
+}
+
+.radioButtonContainer input {
+  display: none;
+}
+
+$size: 20px;
+.radioButtonCheckMark {
+  height: $size;
+  width: $size;
+  justify-content: center;
+  align-items: center;
+  display: flex;
+  border: 1px solid #00000017;
+  border-radius: 50%;
+}
+
+%blueBorder {
+  border: 1px solid #3845d5;
+}
+
+.radioButtonContainer input:checked ~ .radioButtonCheckMark {
+  @extend %blueBorder;
+}
+
+.radioButtonContainer:hover input ~ .radioButtonCheckMark {
+  @extend %blueBorder;
+}
+
+.radioButtonContainer input:checked ~ .radioButtonCheckMark > .radioButtonMark {
+  opacity: 1;
+}
+
+.radioButtonCheckMark > .radioButtonMark {
+  opacity: 0;
+}
+
+$markSize: 50%;
+.radioButtonContainer .radioButtonCheckMark > .radioButtonMark {
+  width: $markSize;
+  height: $markSize;
+  transition: 0.25s;
+  border-radius: 50%;
+  background-color: #3845d5;
+}
+
+.radioButtonLabel {
+  font-size: 16px;
+  margin-left: 10px;
+  color: gray;
+}
+
+.radioButtonContainer input:checked ~ .radioButtonLabel {
+  color: black;
+}

@@ -1,4 +1,4 @@
-module TodoList exposing (TodoEntry, Tag, TodoDay, partitionTodoDay, renderTodoListPartition)
+module TodoList exposing (TodoEntry, Tag, TodoDay, partitionTodoDay, renderTodoListPartition, addEntry)
 
 import Date
 import Time
@@ -6,6 +6,8 @@ import Html exposing (Html, div, text, button, label, input, span)
 import Html.Attributes exposing (class, type_, autocomplete, checked, style)
 import Html.Events exposing (onClick, on)
 import Json.Decode exposing (Decoder, map, field, string, bool)
+import Global exposing (Updater)
+import Tuple2
 
 type alias TodoDay = 
   { date: Date.Date
@@ -30,6 +32,29 @@ type alias Tag =
 
 type alias OnTempStatusChange msg = TodoDay -> Int -> Bool -> msg
 type alias OnStatusChange msg = TodoDay -> Int -> String -> msg
+
+addEntry : TodoEntry -> Updater (List TodoDay)
+addEntry entryToAdd todoDayList =
+  if List.any (\n -> n.date == entryToAdd.date) todoDayList then
+    todoDayList
+      |> List.map (\n -> if n.date /= entryToAdd.date then n else { n | list = addEntryToListInOrder n.list entryToAdd }) 
+  else
+    List.sortWith compareTodoDay <| TodoDay entryToAdd.date [entryToAdd] False :: todoDayList
+
+addEntryToListInOrder : List TodoEntry -> TodoEntry -> List TodoEntry
+addEntryToListInOrder list todoEntry =
+  todoEntry :: list |> List.sortWith compareTodoEntry
+
+compareTodoEntry : TodoEntry -> TodoEntry -> Order
+compareTodoEntry entry1 entry2 =
+  (entry1, entry2)
+    |> Tuple.mapBoth .dateTime .dateTime
+    |> Tuple.mapBoth Time.posixToMillis Time.posixToMillis
+    |> Tuple2.uncurry compare
+
+compareTodoDay : TodoDay -> TodoDay -> Order
+compareTodoDay todoDay1 todoDay2 =
+  Date.compare todoDay1.date todoDay2.date
 
 renderTodoListPartition : OnTempStatusChange msg -> OnStatusChange msg -> (TodoDay -> msg) -> TodoDay -> List(Html msg)
 renderTodoListPartition onTempStatusChange onStatusChange onClosedSwitch todoDay =

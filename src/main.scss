@@ -1,4 +1,7 @@
-@import "./styles/fonts.scss", "./styles/tabsFramework.scss", "./styles/customCheckbox.scss";
+@import "./styles/fonts.scss", "./styles/tabsFramework.scss",
+  "./styles/customCheckbox.scss";
+@import "./styles/customRadioButton.scss";
+@import "./styles/customInputs.scss";
 
 .content {
   width: 80vw;
@@ -36,6 +39,7 @@ html {
   align-items: center;
   justify-content: center;
   font-family: Roboto;
+  overflow: hidden;
 }
 
 .todoList {
@@ -140,4 +144,88 @@ html {
 
 #work {
   flex-direction: column;
+}
+
+%standardButton {
+  background-color: #3845d5;
+  color: white;
+  border: none;
+  font-size: 14px;
+  font-family: inherit;
+  padding: 7px 14px;
+  border-radius: 5px;
+  width: 90px;
+  height: 30px;
+  cursor: pointer;
+}
+
+%standardButton:active {
+  font-size: 13px;
+}
+
+.standardButton {
+  @extend %standardButton;
+}
+
+.tools {
+  display: flex;
+  flex-direction: row;
+  height: max-content;
+}
+
+.titleBar {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  padding-left: 17px;
+  margin-bottom: 10px;
+}
+
+.title {
+  color: #6c6c6c;
+  font-size: 24px;
+}
+
+.modal {
+  display: none;
+  position: fixed;
+  z-index: 9000;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  overflow: auto;
+  background-color: rgba(0, 0, 0, 0.4);
+  justify-content: center;
+  align-items: center;
+}
+
+.modalContent {
+  background: white;
+  width: max-content;
+  height: max-content;
+  border-radius: 3px;
+  width: 400px;
+}
+
+.createEntryNav {
+  border-bottom: 1px solid #0000002e;
+  padding: 20px;
+  display: flex;
+  justify-content: space-around;
+}
+
+.createEntryBody {
+  padding: 20px;
+}
+
+.createEntryBody > form {
+  display: flex;
+  flex-direction: column;
+}
+
+.createEntryActions {
+  justify-content: end;
+  display: flex;
+  padding: 20px;
 }
