@@ -19,7 +19,7 @@
     "elm": "^0.19.0-no-deps",
     "sass": "^1.22.9",
     "webpack": "^4.39.3",
-    "webpack-cli": "^3.3.7"
+    "webpack-cli": "^3.3.12"
   },
   "dependencies": {
     "custom-scrollbar": "git+https://github.com/xAKLx/custom-scrollbar.git#0.0.3",
