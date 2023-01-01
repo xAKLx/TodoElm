@@ -18,8 +18,8 @@
     "chokidar-cli": "^2.0.0",
     "elm": "^0.19.0-no-deps",
     "sass": "^1.22.9",
-    "webpack": "^4.39.3",
-    "webpack-cli": "^3.3.7"
+    "webpack": "^5.75.0",
+    "webpack-cli": "^5.0.1"
   },
   "dependencies": {
     "custom-scrollbar": "git+https://github.com/xAKLx/custom-scrollbar.git#0.0.3",
